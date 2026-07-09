@@ -14,6 +14,7 @@
   <div class="admin-grid">
     <a class="admin-tile" href="/admin/blog"><span class="count" th:text="${postCount}">0</span><br/><span class="name">Journal Entries</span></a>
     <a class="admin-tile" href="/admin/hobbies"><span class="count" th:text="${hobbyCount}">0</span><br/><span class="name">Hobbies</span></a>
+    <a class="admin-tile" href="/admin/projects"><span class="count" th:text="${projectCount}">0</span><br/><span class="name">Projects</span></a>
     <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${experienceCount}">0</span><br/><span class="name">Experience Entries</span></a>
     <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${educationCount}">0</span><br/><span class="name">Education Entries</span></a>
     <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${skillCount}">0</span><br/><span class="name">Skills</span></a>
@@ -32,6 +33,11 @@
       <h3>Hobbies</h3>
       <p>Add or update the hobbies you display.</p>
       <a class="btn" href="/admin/hobbies">Manage Hobbies</a>
+    </div>
+    <div class="preview-card">
+      <h3>Projects</h3>
+      <p>Showcase your coding projects with links to GitHub.</p>
+      <a class="btn" href="/admin/projects">Manage Projects</a>
     </div>
     <div class="preview-card">
       <h3>Resume</h3>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage Projects')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <div class="section-heading-row" style="margin-top: var(--space-md);">
+    <h1>Projects</h1>
+    <a class="btn primary" href="/admin/projects/new">+ New Project</a>
+  </div>
+
+  <table class="admin-table">
+    <thead><tr><th>Title</th><th>Order</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="project : ${projects}">
+        <td th:text="${project.title}">Title</td>
+        <td th:text="${project.sortOrder}">0</td>
+        <td class="row-actions">
+          <a th:href="@{'/admin/projects/' + ${project.id} + '/edit'}">Edit</a>
+          <form th:action="@{'/admin/projects/' + ${project.id} + '/delete'}" method="post"
+                onsubmit="return confirm('Delete this project?');">
+            <button type="submit" class="link-btn">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p th:if="${projects.isEmpty()}">No projects yet.</p>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

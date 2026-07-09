@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${project.id} != null ? 'Edit Project' : 'New Project')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);" th:text="${project.id} != null ? 'Edit Project' : 'New Project'">Project</h1>
+
+  <form th:action="@{/admin/projects/save}" th:object="${project}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input type="text" id="title" th:field="*{title}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" th:field="*{description}"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="imageUrl">Image URL <span style="text-transform:none;">(optional — paste a link to an image)</span></label>
+      <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="https://..."/>
+    </div>
+
+    <div class="form-field">
+      <label for="repoUrl">GitHub Repo URL <span style="text-transform:none;">(optional)</span></label>
+      <input type="text" id="repoUrl" th:field="*{repoUrl}" placeholder="https://github.com/..."/>
+    </div>
+
+    <div class="form-field">
+      <label for="sortOrder">Display Order <span style="text-transform:none;">(lower numbers show first)</span></label>
+      <input type="text" id="sortOrder" th:field="*{sortOrder}"/>
+    </div>
+
+    <div class="actions" style="justify-content: flex-start;">
+      <button type="submit" class="btn primary">Save Project</button>
+      <a class="btn" href="/admin/projects">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

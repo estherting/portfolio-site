@@ -24,18 +24,20 @@ public class PublicController {
     private final ExperienceRepository experienceRepository;
     private final EducationRepository educationRepository;
     private final SkillRepository skillRepository;
+    private final ProjectRepository projectRepository;
     private final PollService pollService;
 
     public PublicController(BlogPostRepository blogPostRepository, HobbyRepository hobbyRepository,
                              ResumeProfileRepository resumeProfileRepository, ExperienceRepository experienceRepository,
                              EducationRepository educationRepository, SkillRepository skillRepository,
-                             PollService pollService) {
+                             ProjectRepository projectRepository, PollService pollService) {
         this.blogPostRepository = blogPostRepository;
         this.hobbyRepository = hobbyRepository;
         this.resumeProfileRepository = resumeProfileRepository;
         this.experienceRepository = experienceRepository;
         this.educationRepository = educationRepository;
         this.skillRepository = skillRepository;
+        this.projectRepository = projectRepository;
         this.pollService = pollService;
     }
 
@@ -66,6 +68,12 @@ public class PublicController {
     public String hobbies(Model model) {
         model.addAttribute("hobbies", hobbyRepository.findAllByOrderBySortOrderAscTitleAsc());
         return "hobbies";
+    }
+
+    @GetMapping("/projects")
+    public String projects(Model model) {
+        model.addAttribute("projects", projectRepository.findAllByOrderBySortOrderAscTitleAsc());
+        return "projects";
     }
 
     @GetMapping("/blog")

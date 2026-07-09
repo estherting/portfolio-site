@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Projects')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('projects')}"></div>
+
+<main class="page-frame">
+  <section class="hero">
+    <span class="label eyebrow">Selected Work</span>
+    <h1>Projects</h1>
+    <p class="lede">A few of the things I've built.</p>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="hobby-grid">
+    <div class="hobby-card" th:each="project : ${projects}">
+      <img th:if="${project.imageUrl != null and !project.imageUrl.isEmpty()}" th:src="${project.imageUrl}" th:alt="${project.title}"/>
+      <div class="placeholder-img" th:unless="${project.imageUrl != null and !project.imageUrl.isEmpty()}">
+        <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M20 10c1.5 2.5 1.5 5 0 7.5-1.5-2.5-1.5-5 0-7.5z"/>
+          <path d="M12 20c2.5-1.5 5-1.5 7.5 0-2.5 1.5-5 1.5-7.5 0z"/>
+          <path d="M28 20c-2.5-1.5-5-1.5-7.5 0 2.5 1.5 5 1.5 7.5 0z"/>
+          <path d="M20 30c-1.5-2.5-1.5-5 0-7.5 1.5 2.5 1.5 5 0 7.5z"/>
+        </svg>
+      </div>
+      <h3 th:text="${project.title}">Project Title</h3>
+      <p th:text="${project.description}">Description</p>
+      <a th:if="${project.repoUrl != null and !project.repoUrl.isEmpty()}"
+         th:href="${project.repoUrl}" target="_blank" rel="noopener" class="btn">View on GitHub &#8599;</a>
+    </div>
+  </section>
+  <p th:if="${projects.isEmpty()}">No projects added yet.</p>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

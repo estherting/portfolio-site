@@ -13,16 +13,19 @@ public class AdminDashboardController {
     private final ExperienceRepository experienceRepository;
     private final EducationRepository educationRepository;
     private final SkillRepository skillRepository;
+    private final ProjectRepository projectRepository;
     private final WeeklyPollRepository weeklyPollRepository;
 
     public AdminDashboardController(BlogPostRepository blogPostRepository, HobbyRepository hobbyRepository,
                                      ExperienceRepository experienceRepository, EducationRepository educationRepository,
-                                     SkillRepository skillRepository, WeeklyPollRepository weeklyPollRepository) {
+                                     SkillRepository skillRepository, ProjectRepository projectRepository,
+                                     WeeklyPollRepository weeklyPollRepository) {
         this.blogPostRepository = blogPostRepository;
         this.hobbyRepository = hobbyRepository;
         this.experienceRepository = experienceRepository;
         this.educationRepository = educationRepository;
         this.skillRepository = skillRepository;
+        this.projectRepository = projectRepository;
         this.weeklyPollRepository = weeklyPollRepository;
     }
 
@@ -30,6 +33,7 @@ public class AdminDashboardController {
     public String dashboard(Model model) {
         model.addAttribute("postCount", blogPostRepository.count());
         model.addAttribute("hobbyCount", hobbyRepository.count());
+        model.addAttribute("projectCount", projectRepository.count());
         model.addAttribute("experienceCount", experienceRepository.count());
         model.addAttribute("educationCount", educationRepository.count());
         model.addAttribute("skillCount", skillRepository.count());
