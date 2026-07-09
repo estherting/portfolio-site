@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Resume')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('resume')}"></div>
+
+<main class="page-frame">
+  <div class="resume-header">
+    <h1 th:text="${profile != null ? profile.fullName : 'Your Name'}">Your Name</h1>
+    <p class="contact-line">
+      <span th:text="${profile != null ? profile.location : ''}">Location</span>
+      <span th:if="${profile != null and profile.email != null and !profile.email.isEmpty()}"> &middot; <a th:href="'mailto:' + ${profile.email}" th:text="${profile.email}">email</a></span>
+      <span th:if="${profile != null and profile.linkedinUrl != null and !profile.linkedinUrl.isEmpty()}"> &middot; <a th:href="${profile.linkedinUrl}" target="_blank" rel="noopener">LinkedIn</a></span>
+      <span th:if="${profile != null and profile.websiteUrl != null and !profile.websiteUrl.isEmpty()}"> &middot; <a th:href="${profile.websiteUrl}" target="_blank" rel="noopener">Website</a></span>
+    </p>
+  </div>
+
+  <section class="resume-section" th:if="${profile != null and profile.summary != null}">
+    <span class="label">Summary</span>
+    <p th:text="${profile.summary}">Summary text</p>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="resume-section">
+    <span class="label">Experience</span>
+    <div class="resume-entry" th:each="exp : ${experiences}">
+      <div class="resume-entry-head">
+        <h3 th:text="${exp.role}">Role</h3>
+        <span class="resume-entry-dates" th:text="${exp.startDate + ' – ' + exp.endDate}">Dates</span>
+      </div>
+      <p class="resume-entry-sub" th:text="${exp.company}">Company</p>
+      <p th:text="${exp.description}">Description</p>
+    </div>
+    <p th:if="${experiences.isEmpty()}">No experience listed yet.</p>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="resume-section">
+    <span class="label">Education</span>
+    <div class="resume-entry" th:each="ed : ${educations}">
+      <div class="resume-entry-head">
+        <h3 th:text="${ed.degree}">Degree</h3>
+        <span class="resume-entry-dates" th:text="${ed.startDate + ' – ' + ed.endDate}">Dates</span>
+      </div>
+      <p class="resume-entry-sub" th:text="${ed.school}">School</p>
+      <p th:text="${ed.description}">Description</p>
+    </div>
+    <p th:if="${educations.isEmpty()}">No education listed yet.</p>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="resume-section">
+    <span class="label">Skills</span>
+    <ul class="skills-list">
+      <li th:each="skill : ${skills}" th:text="${skill.name}">Skill</li>
+    </ul>
+    <p th:if="${skills.isEmpty()}">No skills listed yet.</p>
+  </section>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

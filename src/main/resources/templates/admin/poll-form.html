@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${poll.id} != null ? 'Edit Poll' : 'New Poll')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);" th:text="${poll.id} != null ? 'Edit Poll' : 'New Poll'">Poll</h1>
+
+  <form th:action="@{/admin/polls/save}" th:object="${poll}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-field">
+      <label for="question">Question</label>
+      <input type="text" id="question" th:field="*{question}" required placeholder="e.g. Which season do you love most?"/>
+      <div class="form-error" th:if="${#fields.hasErrors('question')}" th:errors="*{question}"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="optionAText">Option A</label>
+      <input type="text" id="optionAText" th:field="*{optionAText}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('optionAText')}" th:errors="*{optionAText}"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="optionBText">Option B</label>
+      <input type="text" id="optionBText" th:field="*{optionBText}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('optionBText')}" th:errors="*{optionBText}"></div>
+    </div>
+
+    <div class="checkbox-field">
+      <input type="checkbox" id="makeActive" name="makeActive" th:checked="${poll.active}"/>
+      <label for="makeActive">Make this the active poll shown on the homepage</label>
+    </div>
+    <p style="font-family: var(--font-label); font-size: 0.78rem; color: var(--color-sage); margin-top: -0.6em;">
+      Only one poll can be active at a time — activating this one deactivates any other.
+    </p>
+
+    <div class="actions" style="justify-content: flex-start;">
+      <button type="submit" class="btn primary">Save Poll</button>
+      <a class="btn" href="/admin/polls">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

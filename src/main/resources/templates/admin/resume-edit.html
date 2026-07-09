@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage Resume')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);">Resume</h1>
+
+  <section class="resume-section">
+    <span class="label">Profile</span>
+    <form th:action="@{/admin/resume/profile/save}" th:object="${profile}" method="post">
+      <input type="hidden" th:field="*{id}"/>
+      <div class="form-field">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" th:field="*{fullName}"/>
+      </div>
+      <div class="form-field">
+        <label for="tagline">Tagline <span style="text-transform:none;">(shown as the home page headline)</span></label>
+        <input type="text" id="tagline" th:field="*{tagline}"/>
+      </div>
+      <div class="form-field">
+        <label for="summary">Professional Summary</label>
+        <textarea id="summary" th:field="*{summary}"></textarea>
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="text" id="email" th:field="*{email}"/>
+      </div>
+      <div class="form-field">
+        <label for="location">Location</label>
+        <input type="text" id="location" th:field="*{location}"/>
+      </div>
+      <div class="form-field">
+        <label for="linkedinUrl">LinkedIn URL</label>
+        <input type="text" id="linkedinUrl" th:field="*{linkedinUrl}"/>
+      </div>
+      <div class="form-field">
+        <label for="websiteUrl">Other Website URL</label>
+        <input type="text" id="websiteUrl" th:field="*{websiteUrl}"/>
+      </div>
+      <button type="submit" class="btn primary">Save Profile</button>
+    </form>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="resume-section">
+    <div class="section-heading-row" style="margin-top:0;">
+      <span class="label">Experience</span>
+      <a class="btn" href="/admin/resume/experience/new">+ Add Experience</a>
+    </div>
+    <table class="admin-table">
+      <thead><tr><th>Role</th><th>Company</th><th>Dates</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="exp : ${experiences}">
+          <td th:text="${exp.role}">Role</td>
+          <td th:text="${exp.company}">Company</td>
+          <td th:text="${exp.startDate + ' - ' + exp.endDate}">Dates</td>
+          <td class="row-actions">
+            <a th:href="@{'/admin/resume/experience/' + ${exp.id} + '/edit'}">Edit</a>
+            <form th:action="@{'/admin/resume/experience/' + ${exp.id} + '/delete'}" method="post" onsubmit="return confirm('Delete this entry?');">
+              <button type="submit" class="link-btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p th:if="${experiences.isEmpty()}">No experience entries yet.</p>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="resume-section">
+    <div class="section-heading-row" style="margin-top:0;">
+      <span class="label">Education</span>
+      <a class="btn" href="/admin/resume/education/new">+ Add Education</a>
+    </div>
+    <table class="admin-table">
+      <thead><tr><th>Degree</th><th>School</th><th>Dates</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="ed : ${educations}">
+          <td th:text="${ed.degree}">Degree</td>
+          <td th:text="${ed.school}">School</td>
+          <td th:text="${ed.startDate + ' - ' + ed.endDate}">Dates</td>
+          <td class="row-actions">
+            <a th:href="@{'/admin/resume/education/' + ${ed.id} + '/edit'}">Edit</a>
+            <form th:action="@{'/admin/resume/education/' + ${ed.id} + '/delete'}" method="post" onsubmit="return confirm('Delete this entry?');">
+              <button type="submit" class="link-btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p th:if="${educations.isEmpty()}">No education entries yet.</p>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <section class="resume-section">
+    <div class="section-heading-row" style="margin-top:0;">
+      <span class="label">Skills</span>
+      <a class="btn" href="/admin/resume/skill/new">+ Add Skill</a>
+    </div>
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Category</th><th></th></tr></thead>
+      <tbody>
+        <tr th:each="skill : ${skills}">
+          <td th:text="${skill.name}">Name</td>
+          <td th:text="${skill.category}">Category</td>
+          <td class="row-actions">
+            <a th:href="@{'/admin/resume/skill/' + ${skill.id} + '/edit'}">Edit</a>
+            <form th:action="@{'/admin/resume/skill/' + ${skill.id} + '/delete'}" method="post" onsubmit="return confirm('Delete this skill?');">
+              <button type="submit" class="link-btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p th:if="${skills.isEmpty()}">No skills yet.</p>
+  </section>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

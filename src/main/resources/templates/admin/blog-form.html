@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${post.id} != null ? 'Edit Entry' : 'New Entry')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);" th:text="${post.id} != null ? 'Edit Entry' : 'New Entry'">Entry</h1>
+
+  <form th:action="@{/admin/blog/save}" th:object="${post}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input type="text" id="title" th:field="*{title}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="slug">URL Slug <span style="text-transform:none;">(leave blank to auto-generate from title)</span></label>
+      <input type="text" id="slug" th:field="*{slug}" placeholder="e.g. my-first-post"/>
+    </div>
+
+    <div class="form-field">
+      <label for="summary">Short Summary</label>
+      <input type="text" id="summary" th:field="*{summary}" placeholder="Shown in previews and the journal list"/>
+    </div>
+
+    <div class="form-field">
+      <label for="content">Content <span style="text-transform:none;">(basic HTML like &lt;p&gt;, &lt;b&gt;, &lt;i&gt;, &lt;h2&gt; is supported)</span></label>
+      <textarea id="content" th:field="*{content}" style="min-height:320px;" required></textarea>
+      <div class="form-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+    </div>
+
+    <div class="checkbox-field">
+      <input type="checkbox" id="published" th:field="*{published}"/>
+      <label for="published">Published (visible to site visitors)</label>
+    </div>
+
+    <div class="actions" style="justify-content: flex-start;">
+      <button type="submit" class="btn primary">Save Entry</button>
+      <a class="btn" href="/admin/blog">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin Login')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('')}"></div>
+
+<main class="page-frame">
+  <div class="login-frame frame">
+    <h2 style="text-align:center;">Admin Login</h2>
+    <form method="post" th:action="@{/admin/login}">
+      <div class="form-field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus/>
+      </div>
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required/>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn primary" type="submit">Sign In</button>
+      </div>
+    </form>
+    <p th:if="${param.error}" class="form-error" style="text-align:center;">Invalid username or password.</p>
+    <p th:if="${param.logout}" style="text-align:center;">You have been signed out.</p>
+  </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

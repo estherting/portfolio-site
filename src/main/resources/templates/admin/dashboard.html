@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <section class="hero" style="padding-top: var(--space-md);">
+    <span class="label eyebrow">Behind the Scenes</span>
+    <h1>Dashboard</h1>
+    <p class="lede">Manage your resume, hobbies, and journal entries.</p>
+  </section>
+
+  <div class="admin-grid">
+    <a class="admin-tile" href="/admin/blog"><span class="count" th:text="${postCount}">0</span><br/><span class="name">Journal Entries</span></a>
+    <a class="admin-tile" href="/admin/hobbies"><span class="count" th:text="${hobbyCount}">0</span><br/><span class="name">Hobbies</span></a>
+    <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${experienceCount}">0</span><br/><span class="name">Experience Entries</span></a>
+    <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${educationCount}">0</span><br/><span class="name">Education Entries</span></a>
+    <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${skillCount}">0</span><br/><span class="name">Skills</span></a>
+    <a class="admin-tile" href="/admin/polls"><span class="count" th:text="${pollCount}">0</span><br/><span class="name">Polls</span></a>
+  </div>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <div class="preview-grid">
+    <div class="preview-card">
+      <h3>Journal</h3>
+      <p>Write, edit, or unpublish blog entries.</p>
+      <a class="btn" href="/admin/blog">Manage Journal</a>
+    </div>
+    <div class="preview-card">
+      <h3>Hobbies</h3>
+      <p>Add or update the hobbies you display.</p>
+      <a class="btn" href="/admin/hobbies">Manage Hobbies</a>
+    </div>
+    <div class="preview-card">
+      <h3>Resume</h3>
+      <p>Edit your profile, experience, education, and skills.</p>
+      <a class="btn" href="/admin/resume">Manage Resume</a>
+    </div>
+    <div class="preview-card">
+      <h3>Weekly Poll</h3>
+      <p>Set this week's question and see live results.</p>
+      <a class="btn" href="/admin/polls">Manage Poll</a>
+    </div>
+  </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

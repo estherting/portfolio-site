@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${experience.id} != null ? 'Edit Experience' : 'New Experience')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);" th:text="${experience.id} != null ? 'Edit Experience' : 'New Experience'">Experience</h1>
+
+  <form th:action="@{/admin/resume/experience/save}" th:object="${experience}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <div class="form-field">
+      <label for="role">Role / Job Title</label>
+      <input type="text" id="role" th:field="*{role}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+    </div>
+    <div class="form-field">
+      <label for="company">Company</label>
+      <input type="text" id="company" th:field="*{company}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></div>
+    </div>
+    <div class="form-field">
+      <label for="startDate">Start Date <span style="text-transform:none;">(e.g. "Jun 2022")</span></label>
+      <input type="text" id="startDate" th:field="*{startDate}"/>
+    </div>
+    <div class="form-field">
+      <label for="endDate">End Date <span style="text-transform:none;">(e.g. "Present")</span></label>
+      <input type="text" id="endDate" th:field="*{endDate}"/>
+    </div>
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" th:field="*{description}"></textarea>
+    </div>
+    <div class="form-field">
+      <label for="sortOrder">Display Order</label>
+      <input type="text" id="sortOrder" th:field="*{sortOrder}"/>
+    </div>
+    <div class="actions" style="justify-content: flex-start;">
+      <button type="submit" class="btn primary">Save</button>
+      <a class="btn" href="/admin/resume">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

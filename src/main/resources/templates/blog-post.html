@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${post.title})}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('blog')}"></div>
+
+<main class="page-frame">
+  <article>
+    <span class="label eyebrow" th:text="${#temporals.format(post.createdAt, 'd MMMM yyyy')}">Date</span>
+    <h1 th:text="${post.title}">Title</h1>
+
+    <div th:replace="~{fragments/layout :: divider}"></div>
+
+    <div class="post-content" th:utext="${post.content}">
+      Post content
+    </div>
+  </article>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <a class="back-link" href="/blog">&larr; Back to all entries</a>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

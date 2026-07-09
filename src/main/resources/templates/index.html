@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('home')}"></div>
+
+<main class="page-frame">
+
+  <section class="poll-section" th:if="${poll != null}">
+    <span class="label eyebrow">Icebreaker</span>
+    <h2 th:text="${poll.question}">Question?</h2>
+
+    <div id="poll-buttons" class="poll-options" th:if="${!hasVoted}">
+      <button type="button" class="btn poll-btn" th:attr="data-poll-id=${poll.id},data-option='A'" th:text="${poll.optionAText}">Option A</button>
+      <button type="button" class="btn poll-btn" th:attr="data-poll-id=${poll.id},data-option='B'" th:text="${poll.optionBText}">Option B</button>
+    </div>
+
+    <div id="poll-results" class="poll-results" th:style="${hasVoted} ? '' : 'display:none;'">
+      <div class="poll-chart-row">
+        <div id="poll-pie" class="poll-pie"
+             th:style="${'background: conic-gradient(var(--color-rose) 0% ' + results.percentA + '%, var(--color-sage) ' + results.percentA + '% 100%);'}"></div>
+        <ul class="poll-legend">
+          <li><span class="dot rose"></span><span id="poll-legend-a" th:text="${poll.optionAText + ' — ' + results.percentA + '% (' + results.countA + ')'}">Option A</span></li>
+          <li><span class="dot sage"></span><span id="poll-legend-b" th:text="${poll.optionBText + ' — ' + results.percentB + '% (' + results.countB + ')'}">Option B</span></li>
+        </ul>
+      </div>
+      <p class="poll-total" id="poll-total" th:text="${results.total + (results.total == 1 ? ' response' : ' responses')}">responses</p>
+    </div>
+
+    <p id="poll-voted-note" class="poll-voted-note" th:style="${hasVoted} ? '' : 'display:none;'">Thanks for voting! Come back next week for a new poll.</p>
+  </section>
+
+  <section class="poll-section frame" th:unless="${poll != null}">
+    <span class="label eyebrow">Weekly Poll</span>
+    <h2>No poll this week</h2>
+    <p>Check back soon for a new question.</p>
+  </section>
+
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/poll.js}"></script>
+</body>
+</html>

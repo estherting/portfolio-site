@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${education.id} != null ? 'Edit Education' : 'New Education')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);" th:text="${education.id} != null ? 'Edit Education' : 'New Education'">Education</h1>
+
+  <form th:action="@{/admin/resume/education/save}" th:object="${education}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <div class="form-field">
+      <label for="degree">Degree</label>
+      <input type="text" id="degree" th:field="*{degree}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('degree')}" th:errors="*{degree}"></div>
+    </div>
+    <div class="form-field">
+      <label for="school">School</label>
+      <input type="text" id="school" th:field="*{school}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('school')}" th:errors="*{school}"></div>
+    </div>
+    <div class="form-field">
+      <label for="startDate">Start Date</label>
+      <input type="text" id="startDate" th:field="*{startDate}"/>
+    </div>
+    <div class="form-field">
+      <label for="endDate">End Date</label>
+      <input type="text" id="endDate" th:field="*{endDate}"/>
+    </div>
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea id="description" th:field="*{description}"></textarea>
+    </div>
+    <div class="form-field">
+      <label for="sortOrder">Display Order</label>
+      <input type="text" id="sortOrder" th:field="*{sortOrder}"/>
+    </div>
+    <div class="actions" style="justify-content: flex-start;">
+      <button type="submit" class="btn primary">Save</button>
+      <a class="btn" href="/admin/resume">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

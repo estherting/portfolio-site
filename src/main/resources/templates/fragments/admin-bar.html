@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="bar">
+<div class="admin-bar">
+  <div class="page-frame">
+    <span><a href="/admin">Admin Dashboard</a> &middot; <a href="/" target="_blank">View Site &#8599;</a></span>
+    <form method="post" th:action="@{/admin/logout}" style="display:inline;">
+      <button type="submit" class="link-btn" style="background:none;border:none;color:inherit;font:inherit;cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;">Log Out</button>
+    </form>
+  </div>
+</div>
+</th:block>
+</body>
+</html>
