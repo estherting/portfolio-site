@@ -183,7 +183,7 @@ main { padding-bottom: var(--space-xl); padding-top: var(--space-md); }
 /* ---------- Home hero ---------- */
 .hero {
   text-align: center;
-  padding: var(--space-md) 0 var(--space-lg);
+  padding: var(--space-md) 0 0;
 }
 .hero .eyebrow { display: block; margin-bottom: var(--space-sm); }
 .hero h1 { margin-bottom: var(--space-sm); }
@@ -471,3 +471,6 @@ table.admin-table .row-actions button.link-btn {
   color: var(--color-rose);
   margin-top: var(--space-sm);
 }
+
+/* Preserve line breaks typed into admin textareas (description/summary fields) */
+.preserve-lines { white-space: pre-wrap; }

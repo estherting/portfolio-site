@@ -17,7 +17,7 @@
 
   <section class="resume-section" th:if="${profile != null and profile.summary != null}">
     <span class="label">Summary</span>
-    <p th:text="${profile.summary}">Summary text</p>
+    <p class="preserve-lines" th:text="${profile.summary}">Summary text</p>
   </section>
 
   <div th:replace="~{fragments/layout :: divider}"></div>
@@ -30,7 +30,7 @@
         <span class="resume-entry-dates" th:text="${exp.startDate + ' – ' + exp.endDate}">Dates</span>
       </div>
       <p class="resume-entry-sub" th:text="${exp.company}">Company</p>
-      <p th:text="${exp.description}">Description</p>
+      <p class="preserve-lines" th:text="${exp.description}">Description</p>
     </div>
     <p th:if="${experiences.isEmpty()}">No experience listed yet.</p>
   </section>
@@ -45,7 +45,7 @@
         <span class="resume-entry-dates" th:text="${ed.startDate + ' – ' + ed.endDate}">Dates</span>
       </div>
       <p class="resume-entry-sub" th:text="${ed.school}">School</p>
-      <p th:text="${ed.description}">Description</p>
+      <p class="preserve-lines" th:text="${ed.description}">Description</p>
     </div>
     <p th:if="${educations.isEmpty()}">No education listed yet.</p>
   </section>

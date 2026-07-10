@@ -8,7 +8,6 @@
   <section class="hero">
     <span class="label eyebrow">Selected Work</span>
     <h1>Projects</h1>
-    <p class="lede">A few of the things I've built.</p>
   </section>
 
   <div th:replace="~{fragments/layout :: divider}"></div>
@@ -25,7 +24,7 @@
         </svg>
       </div>
       <h3 th:text="${project.title}">Project Title</h3>
-      <p th:text="${project.description}">Description</p>
+      <p class="preserve-lines" th:text="${project.description}">Description</p>
       <a th:if="${project.repoUrl != null and !project.repoUrl.isEmpty()}"
          th:href="${project.repoUrl}" target="_blank" rel="noopener" class="btn">View on GitHub &#8599;</a>
     </div>

@@ -8,7 +8,6 @@
   <section class="hero">
     <span class="label eyebrow">Beyond Work</span>
     <h1>Hobbies &amp; Pastimes</h1>
-    <p class="lede">A few of the things I like to spend my quiet hours on.</p>
   </section>
 
   <div th:replace="~{fragments/layout :: divider}"></div>
@@ -25,7 +24,7 @@
         </svg>
       </div>
       <h3 th:text="${hobby.title}">Hobby Title</h3>
-      <p th:text="${hobby.description}">Description</p>
+      <p class="preserve-lines" th:text="${hobby.description}">Description</p>
     </div>
   </section>
   <p th:if="${hobbies.isEmpty()}">No hobbies added yet.</p>

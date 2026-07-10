@@ -8,7 +8,6 @@
   <section class="hero">
     <span class="label eyebrow">Notes &amp; Musings</span>
     <h1>The Journal</h1>
-    <p class="lede">Thoughts, updates, and little stories.</p>
   </section>
 
   <div th:replace="~{fragments/layout :: divider}"></div>
@@ -17,7 +16,7 @@
     <article class="post-list-item" th:each="post : ${posts}">
       <span class="meta" th:text="${#temporals.format(post.createdAt, 'd MMMM yyyy')}">Date</span>
       <h2><a th:href="@{'/blog/' + ${post.slug}}" th:text="${post.title}">Title</a></h2>
-      <p th:text="${post.summary}">Summary</p>
+      <p class="preserve-lines" th:text="${post.summary}">Summary</p>
       <a class="back-link" th:href="@{'/blog/' + ${post.slug}}">Read entry &rarr;</a>
     </article>
     <p th:if="${posts.isEmpty()}">No entries published yet — check back soon.</p>
