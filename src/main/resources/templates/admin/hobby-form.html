@@ -7,7 +7,7 @@
 <main class="page-frame admin-shell">
   <h1 style="margin-top: var(--space-md);" th:text="${hobby.id} != null ? 'Edit Hobby' : 'New Hobby'">Hobby</h1>
 
-  <form th:action="@{/admin/hobbies/save}" th:object="${hobby}" method="post">
+  <form th:action="@{/admin/hobbies/save}" th:object="${hobby}" method="post" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}"/>
 
     <div class="form-field">
@@ -22,7 +22,15 @@
     </div>
 
     <div class="form-field">
-      <label for="imageUrl">Image URL <span style="text-transform:none;">(optional — paste a link to an image)</span></label>
+      <label for="imageFile">Upload Image <span style="text-transform:none;">(optional — choose a file from your computer)</span></label>
+      <input type="file" id="imageFile" name="imageFile" accept="image/*"/>
+      <img th:if="${hobby.imageUrl != null and !hobby.imageUrl.isEmpty()}"
+           th:src="${hobby.imageUrl}" alt="Current image"
+           style="margin-top: var(--space-xs); max-width: 200px; height: auto; border-radius: 4px;"/>
+    </div>
+
+    <div class="form-field">
+      <label for="imageUrl">Image URL <span style="text-transform:none;">(optional — or paste a link to an image; an uploaded file above takes precedence)</span></label>
       <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="https://..."/>
     </div>
 

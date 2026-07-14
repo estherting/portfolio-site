@@ -2,11 +2,13 @@ package com.portfolio.app.controller;
 
 import com.portfolio.app.model.Project;
 import com.portfolio.app.repository.ProjectRepository;
+import com.portfolio.app.service.FileStorageService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
@@ -15,9 +17,11 @@ import org.springframework.http.HttpStatus;
 public class AdminProjectController {
 
     private final ProjectRepository projectRepository;
+    private final FileStorageService fileStorageService;
 
-    public AdminProjectController(ProjectRepository projectRepository) {
+    public AdminProjectController(ProjectRepository projectRepository, FileStorageService fileStorageService) {
         this.projectRepository = projectRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -41,9 +45,15 @@ public class AdminProjectController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("project") Project project, BindingResult result) {
+    public String save(@Valid @ModelAttribute("project") Project project, BindingResult result,
+                       @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
         if (result.hasErrors()) {
             return "admin/project-form";
+        }
+        // An uploaded file, when present, takes precedence over the pasted image URL.
+        String uploadedUrl = fileStorageService.store(imageFile);
+        if (uploadedUrl != null) {
+            project.setImageUrl(uploadedUrl);
         }
         projectRepository.save(project);
         return "redirect:/admin/projects";
