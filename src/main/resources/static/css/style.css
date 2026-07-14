@@ -282,6 +282,12 @@ main { padding-bottom: var(--space-xl); padding-top: var(--space-md); }
   gap: var(--space-md);
 }
 .hobby-card { text-align: center; }
+/* Reserve up to two lines for the title so a wrapped title on one card
+   doesn't push its description out of line with neighbouring cards. */
+.hobby-card h3 {
+  line-height: 1.25;
+  min-height: 2.5em;
+}
 .hobby-card img {
   width: 100%;
   aspect-ratio: 4/3;
