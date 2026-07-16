@@ -6,3 +6,4 @@ uploads/
 .vscode/
 *.class
 .DS_Store
+DEPLOYMENT.md
