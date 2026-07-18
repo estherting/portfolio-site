@@ -8,11 +8,11 @@
   <section class="hero" style="padding-top: var(--space-md);">
     <span class="label eyebrow">Behind the Scenes</span>
     <h1>Dashboard</h1>
-    <p class="lede">Manage your resume, hobbies, and journal entries.</p>
+    <p class="lede">Manage your resume, hobbies, and recipes.</p>
   </section>
 
   <div class="admin-grid">
-    <a class="admin-tile" href="/admin/blog"><span class="count" th:text="${postCount}">0</span><br/><span class="name">Journal Entries</span></a>
+    <a class="admin-tile" href="/admin/recipes"><span class="count" th:text="${recipeCount}">0</span><br/><span class="name">Recipes</span></a>
     <a class="admin-tile" href="/admin/hobbies"><span class="count" th:text="${hobbyCount}">0</span><br/><span class="name">Hobbies</span></a>
     <a class="admin-tile" href="/admin/projects"><span class="count" th:text="${projectCount}">0</span><br/><span class="name">Projects</span></a>
     <a class="admin-tile" href="/admin/resume"><span class="count" th:text="${experienceCount}">0</span><br/><span class="name">Experience Entries</span></a>
@@ -25,9 +25,9 @@
 
   <div class="preview-grid">
     <div class="preview-card">
-      <h3>Journal</h3>
-      <p>Write, edit, or unpublish blog entries.</p>
-      <a class="btn" href="/admin/blog">Manage Journal</a>
+      <h3>Recipes</h3>
+      <p>Add, edit, or remove recipes and their ingredients.</p>
+      <a class="btn" href="/admin/recipes">Manage Recipes</a>
     </div>
     <div class="preview-card">
       <h3>Hobbies</h3>

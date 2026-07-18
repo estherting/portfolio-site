@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Recipes')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('recipes')}"></div>
+
+<main class="page-frame">
+  <section class="hero">
+    <span class="label eyebrow">From My Kitchen</span>
+    <h1>Recipes</h1>
+  </section>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <!-- Search section: search by title, or filter by ingredients on hand -->
+  <section class="recipe-search" th:if="${!recipes.isEmpty()}">
+    <div class="recipe-search-field">
+      <label for="titleSearch">Search recipes</label>
+      <input type="search" id="titleSearch" placeholder="Search by title…" autocomplete="off"/>
+    </div>
+
+    <div class="recipe-search-field">
+      <label for="fridgeInput">What's in your fridge?</label>
+      <div class="fridge" id="fridge">
+        <div class="fridge-control">
+          <span class="fridge-chips" id="fridgeChips"></span>
+          <input type="text" id="fridgeInput" placeholder="Type an ingredient…" autocomplete="off"
+                 role="combobox" aria-expanded="false" aria-controls="fridgeMenu"/>
+        </div>
+        <ul class="fridge-menu" id="fridgeMenu" role="listbox" hidden>
+          <li th:each="ing : ${fridgeIngredients}" role="option"
+              th:data-value="${#strings.toLowerCase(ing)}" th:text="${ing}">Ingredient</li>
+          <li class="fridge-empty" id="fridgeNoMatch" hidden>No matching ingredients</li>
+        </ul>
+      </div>
+      <p class="fridge-hint">Shows recipes with at least two of the ingredients you pick.</p>
+    </div>
+  </section>
+
+  <p class="recipe-count" id="recipeCount" th:if="${!recipes.isEmpty()}"></p>
+
+  <section class="recipe-grid" id="recipeGrid">
+    <a class="recipe-card" th:each="recipe : ${recipes}"
+       th:href="@{'/recipes/' + ${recipe.slug}}"
+       th:attr="data-title=${#strings.toLowerCase(recipe.title)},
+                data-ingredients=${#strings.toLowerCase(#strings.listJoin(recipe.topIngredients, '|'))}">
+      <img th:if="${recipe.imageUrl != null and !recipe.imageUrl.isEmpty()}"
+           th:src="${recipe.imageUrl}" th:alt="${recipe.title}"/>
+      <div class="placeholder-img" th:unless="${recipe.imageUrl != null and !recipe.imageUrl.isEmpty()}">
+        <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M20 10c1.5 2.5 1.5 5 0 7.5-1.5-2.5-1.5-5 0-7.5z"/>
+          <path d="M12 20c2.5-1.5 5-1.5 7.5 0-2.5 1.5-5 1.5-7.5 0z"/>
+          <path d="M28 20c-2.5-1.5-5-1.5-7.5 0 2.5 1.5 5 1.5 7.5 0z"/>
+          <path d="M20 30c-1.5-2.5-1.5-5 0-7.5 1.5 2.5 1.5 5 0 7.5z"/>
+        </svg>
+      </div>
+      <h3 th:text="${recipe.title}">Recipe Title</h3>
+      <ul class="recipe-card-ingredients">
+        <li th:each="ing : ${recipe.topIngredients}"
+            th:data-value="${#strings.toLowerCase(ing)}" th:text="${ing}">Ingredient</li>
+      </ul>
+    </a>
+  </section>
+
+  <p id="noResults" hidden>No recipes match your search.</p>
+  <p th:if="${recipes.isEmpty()}">No recipes added yet — check back soon.</p>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/recipes.js}"></script>
+</body>
+</html>

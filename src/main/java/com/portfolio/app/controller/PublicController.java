@@ -1,6 +1,6 @@
 package com.portfolio.app.controller;
 
-import com.portfolio.app.model.BlogPost;
+import com.portfolio.app.model.Recipe;
 import com.portfolio.app.model.WeeklyPoll;
 import com.portfolio.app.repository.*;
 import com.portfolio.app.service.PollService;
@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 
 @Controller
 public class PublicController {
 
-    private final BlogPostRepository blogPostRepository;
+    private final RecipeRepository recipeRepository;
     private final HobbyRepository hobbyRepository;
     private final ResumeProfileRepository resumeProfileRepository;
     private final ExperienceRepository experienceRepository;
@@ -27,11 +29,11 @@ public class PublicController {
     private final ProjectRepository projectRepository;
     private final PollService pollService;
 
-    public PublicController(BlogPostRepository blogPostRepository, HobbyRepository hobbyRepository,
+    public PublicController(RecipeRepository recipeRepository, HobbyRepository hobbyRepository,
                              ResumeProfileRepository resumeProfileRepository, ExperienceRepository experienceRepository,
                              EducationRepository educationRepository, SkillRepository skillRepository,
                              ProjectRepository projectRepository, PollService pollService) {
-        this.blogPostRepository = blogPostRepository;
+        this.recipeRepository = recipeRepository;
         this.hobbyRepository = hobbyRepository;
         this.resumeProfileRepository = resumeProfileRepository;
         this.experienceRepository = experienceRepository;
@@ -76,18 +78,25 @@ public class PublicController {
         return "projects";
     }
 
-    @GetMapping("/blog")
-    public String blogList(Model model) {
-        model.addAttribute("posts", blogPostRepository.findByPublishedTrueOrderByCreatedAtDesc());
-        return "blog-list";
+    @GetMapping("/recipes")
+    public String recipeList(Model model) {
+        List<Recipe> recipes = recipeRepository.findAllByOrderBySortOrderAscTitleAsc();
+        model.addAttribute("recipes", recipes);
+        // The "What's in my fridge?" menu offers the union of every recipe's top-five
+        // ingredients (case-insensitive, alphabetised) so a selection always matches a card.
+        TreeSet<String> fridge = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        for (Recipe recipe : recipes) {
+            fridge.addAll(recipe.getTopIngredients());
+        }
+        model.addAttribute("fridgeIngredients", fridge);
+        return "recipes";
     }
 
-    @GetMapping("/blog/{slug}")
-    public String blogPost(@PathVariable String slug, Model model) {
-        BlogPost post = blogPostRepository.findBySlug(slug)
-                .filter(BlogPost::isPublished)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
-        model.addAttribute("post", post);
-        return "blog-post";
+    @GetMapping("/recipes/{slug}")
+    public String recipe(@PathVariable String slug, Model model) {
+        Recipe recipe = recipeRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+        model.addAttribute("recipe", recipe);
+        return "recipe";
     }
 }

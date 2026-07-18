@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${recipe.id} != null ? 'Edit Recipe' : 'New Recipe')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <h1 style="margin-top: var(--space-md);" th:text="${recipe.id} != null ? 'Edit Recipe' : 'New Recipe'">Recipe</h1>
+
+  <form th:action="@{/admin/recipes/save}" th:object="${recipe}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input type="text" id="title" th:field="*{title}" required/>
+      <div class="form-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="slug">Slug <span style="text-transform:none;">(optional — generated from the title if left blank)</span></label>
+      <input type="text" id="slug" th:field="*{slug}" placeholder="lemon-garlic-roast-chicken"/>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Short Description <span style="text-transform:none;">(shown on the recipe page)</span></label>
+      <textarea id="description" th:field="*{description}"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="topIngredientsText">Top Five Ingredients <span style="text-transform:none;">(one per line — used on the card and the "What's in my fridge?" filter; max 5)</span></label>
+      <textarea id="topIngredientsText" name="topIngredientsText" th:text="${topIngredientsText}"
+                placeholder="Eggs&#10;Spinach&#10;Onion&#10;Parmesan&#10;Olive oil"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="ingredientsText">Full Ingredient List <span style="text-transform:none;">(one per line)</span></label>
+      <textarea id="ingredientsText" name="ingredientsText" th:text="${ingredientsText}"
+                placeholder="6 eggs&#10;2 cups spinach, chopped&#10;..."></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="stepsText">Method <span style="text-transform:none;">(one step per line)</span></label>
+      <textarea id="stepsText" name="stepsText" th:text="${stepsText}"
+                placeholder="Heat the oil...&#10;Add the onion...&#10;..."></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="imageFile">Upload Photo <span style="text-transform:none;">(optional — choose a file from your computer)</span></label>
+      <input type="file" id="imageFile" name="imageFile" accept="image/*"/>
+      <img th:if="${recipe.imageUrl != null and !recipe.imageUrl.isEmpty()}"
+           th:src="${recipe.imageUrl}" alt="Current photo"
+           style="margin-top: var(--space-xs); max-width: 200px; height: auto; border-radius: 4px;"/>
+    </div>
+
+    <div class="form-field">
+      <label for="imageUrl">Photo URL <span style="text-transform:none;">(optional — or paste a link; an uploaded file above takes precedence)</span></label>
+      <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="https://..."/>
+    </div>
+
+    <div class="form-field">
+      <label for="sortOrder">Display Order <span style="text-transform:none;">(lower numbers show first)</span></label>
+      <input type="text" id="sortOrder" th:field="*{sortOrder}"/>
+    </div>
+
+    <div class="actions" style="justify-content: flex-start;">
+      <button type="submit" class="btn primary">Save Recipe</button>
+      <a class="btn" href="/admin/recipes">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

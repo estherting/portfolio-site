@@ -7,11 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
-    private final BlogPostRepository blogPostRepository;
+    private final RecipeRepository recipeRepository;
     private final HobbyRepository hobbyRepository;
     private final ResumeProfileRepository resumeProfileRepository;
     private final ExperienceRepository experienceRepository;
@@ -26,13 +28,13 @@ public class DataInitializer implements CommandLineRunner {
     @Value("${portfolio.admin.password}")
     private String adminPassword;
 
-    public DataInitializer(UserRepository userRepository, BlogPostRepository blogPostRepository,
+    public DataInitializer(UserRepository userRepository, RecipeRepository recipeRepository,
                             HobbyRepository hobbyRepository, ResumeProfileRepository resumeProfileRepository,
                             ExperienceRepository experienceRepository, EducationRepository educationRepository,
                             SkillRepository skillRepository, WeeklyPollRepository weeklyPollRepository,
                             PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.blogPostRepository = blogPostRepository;
+        this.recipeRepository = recipeRepository;
         this.hobbyRepository = hobbyRepository;
         this.resumeProfileRepository = resumeProfileRepository;
         this.experienceRepository = experienceRepository;
@@ -111,16 +113,55 @@ public class DataInitializer implements CommandLineRunner {
             h.setSortOrder(0);
             hobbyRepository.save(h);
         }
-        if (blogPostRepository.count() == 0) {
-            BlogPost post = new BlogPost();
-            post.setTitle("Welcome to My Corner of the Internet");
-            post.setSlug("welcome");
-            post.setSummary("A short note introducing this little journal.");
-            post.setContent("<p>Hello, and welcome! This is the first entry in my new blog. "
-                    + "Edit or delete this post from the admin dashboard, and start writing your own.</p>");
-            post.setPublished(true);
-            blogPostRepository.save(post);
+        if (recipeRepository.count() == 0) {
+            seedRecipe("Garden Herb Frittata", "garden-herb-frittata",
+                    "A soft, golden frittata that turns whatever greens are in the fridge into brunch.",
+                    List.of("Eggs", "Spinach", "Onion", "Parmesan", "Olive oil"),
+                    List.of("6 eggs", "2 cups spinach, roughly chopped", "1 small onion, diced",
+                            "1/2 cup grated parmesan", "2 tbsp olive oil", "Salt and pepper to taste"),
+                    List.of("Heat the olive oil in an oven-safe skillet and soften the onion over medium heat.",
+                            "Add the spinach and cook just until wilted.",
+                            "Whisk the eggs with salt, pepper, and half the parmesan, then pour into the skillet.",
+                            "Scatter the remaining parmesan on top and cook until the edges set.",
+                            "Finish under the broiler for 3–4 minutes until puffed and golden. Slice into wedges."),
+                    0);
+            seedRecipe("Rustic Tomato Basil Soup", "rustic-tomato-basil-soup",
+                    "A cozy, slow-simmered tomato soup brightened with a handful of fresh basil.",
+                    List.of("Tomato", "Onion", "Garlic", "Basil", "Olive oil"),
+                    List.of("2 lbs ripe tomatoes, quartered", "1 onion, sliced", "3 cloves garlic, smashed",
+                            "1 large handful fresh basil", "3 tbsp olive oil", "2 cups vegetable stock",
+                            "Salt and pepper to taste"),
+                    List.of("Warm the olive oil and sweat the onion and garlic until translucent.",
+                            "Add the tomatoes and stock, then simmer for 25 minutes.",
+                            "Stir in most of the basil and blend until smooth.",
+                            "Season to taste and serve topped with the remaining torn basil."),
+                    1);
+            seedRecipe("Lemon Garlic Roast Chicken", "lemon-garlic-roast-chicken",
+                    "A weeknight roast chicken with bright lemon and plenty of garlic.",
+                    List.of("Chicken", "Lemon", "Garlic", "Rosemary", "Olive oil"),
+                    List.of("1 whole chicken (about 3.5 lbs)", "1 lemon, halved", "1 head of garlic, halved",
+                            "3 sprigs rosemary", "3 tbsp olive oil", "Salt and pepper to taste"),
+                    List.of("Heat the oven to 425°F (220°C).",
+                            "Rub the chicken all over with olive oil, salt, and pepper.",
+                            "Tuck the lemon, garlic, and rosemary into the cavity.",
+                            "Roast for about 70 minutes, until the juices run clear.",
+                            "Rest for 10 minutes before carving."),
+                    2);
         }
+    }
+
+    private void seedRecipe(String title, String slug, String description,
+                            java.util.List<String> topIngredients, java.util.List<String> ingredients,
+                            java.util.List<String> steps, int sortOrder) {
+        Recipe recipe = new Recipe();
+        recipe.setTitle(title);
+        recipe.setSlug(slug);
+        recipe.setDescription(description);
+        recipe.setTopIngredients(new java.util.ArrayList<>(topIngredients));
+        recipe.setIngredients(new java.util.ArrayList<>(ingredients));
+        recipe.setSteps(new java.util.ArrayList<>(steps));
+        recipe.setSortOrder(sortOrder);
+        recipeRepository.save(recipe);
     }
 
     private void seedSamplePoll() {
