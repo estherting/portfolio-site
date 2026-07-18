@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminDashboardController {
 
-    private final BlogPostRepository blogPostRepository;
+    private final RecipeRepository recipeRepository;
     private final HobbyRepository hobbyRepository;
     private final ExperienceRepository experienceRepository;
     private final EducationRepository educationRepository;
@@ -16,11 +16,11 @@ public class AdminDashboardController {
     private final ProjectRepository projectRepository;
     private final WeeklyPollRepository weeklyPollRepository;
 
-    public AdminDashboardController(BlogPostRepository blogPostRepository, HobbyRepository hobbyRepository,
+    public AdminDashboardController(RecipeRepository recipeRepository, HobbyRepository hobbyRepository,
                                      ExperienceRepository experienceRepository, EducationRepository educationRepository,
                                      SkillRepository skillRepository, ProjectRepository projectRepository,
                                      WeeklyPollRepository weeklyPollRepository) {
-        this.blogPostRepository = blogPostRepository;
+        this.recipeRepository = recipeRepository;
         this.hobbyRepository = hobbyRepository;
         this.experienceRepository = experienceRepository;
         this.educationRepository = educationRepository;
@@ -31,7 +31,7 @@ public class AdminDashboardController {
 
     @GetMapping("/admin")
     public String dashboard(Model model) {
-        model.addAttribute("postCount", blogPostRepository.count());
+        model.addAttribute("recipeCount", recipeRepository.count());
         model.addAttribute("hobbyCount", hobbyRepository.count());
         model.addAttribute("projectCount", projectRepository.count());
         model.addAttribute("experienceCount", experienceRepository.count());

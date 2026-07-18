@@ -306,21 +306,201 @@ main { padding-bottom: var(--space-xl); padding-top: var(--space-md); }
   color: var(--color-gold);
 }
 
-/* ---------- Blog ---------- */
-.post-list-item { margin-bottom: var(--space-lg); }
-.post-list-item .meta {
-  font-family: var(--font-label);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-sage);
+/* ---------- Recipes ---------- */
+.back-link { font-family: var(--font-label); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* Search + filter section (top-left of the recipes page) */
+.recipe-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: flex-start;
+  margin-bottom: var(--space-lg);
+}
+.recipe-search-field {
+  flex: 1 1 260px;
+  max-width: 340px;
+}
+.recipe-search-field label {
   display: block;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-wine);
   margin-bottom: 0.4em;
 }
-.post-content { font-size: 1.05rem; }
-.post-content img { max-width: 100%; }
-.post-content h2, .post-content h3 { margin-top: 1.4em; }
-.back-link { font-family: var(--font-label); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.recipe-search-field input[type=search] {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.7em 0.8em;
+  border: 1px solid var(--color-rose-soft);
+  background: var(--color-parchment);
+  color: var(--color-ink);
+}
+.recipe-search-field input[type=search]:focus { border-color: var(--color-gold); outline: none; }
+
+/* "What's in my fridge?" typeahead multi-select */
+.fridge { position: relative; }
+.fridge-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.45em 0.5em;
+  border: 1px solid var(--color-rose-soft);
+  background: var(--color-parchment);
+  cursor: text;
+}
+.fridge-control:focus-within { border-color: var(--color-gold); }
+.fridge-chips { display: contents; }
+.fridge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.85rem;
+  padding: 0.2em 0.2em 0.2em 0.6em;
+  background: var(--color-rose-soft);
+  color: var(--color-wine);
+  border-radius: 999px;
+}
+.fridge-chip-remove {
+  border: none;
+  background: none;
+  color: var(--color-wine);
+  font-size: 1.1em;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25em;
+}
+.fridge-chip-remove:hover { color: var(--color-rose); }
+.fridge-control input {
+  flex: 1 1 8em;
+  min-width: 8em;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-ink);
+  padding: 0.25em;
+}
+.fridge-control input:focus { outline: none; }
+.fridge-menu {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  margin-top: 0.2em;
+  max-height: 220px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0.3em 0;
+  border: 1px solid var(--color-rose-soft);
+  background: var(--color-parchment);
+  box-shadow: 0 6px 18px rgba(62, 51, 47, 0.12);
+}
+.fridge-menu li {
+  padding: 0.5em 0.8em;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.fridge-menu li:hover { background: var(--color-parchment-deep); }
+.fridge-menu li.fridge-empty { color: var(--color-sage); cursor: default; font-style: italic; }
+.fridge-menu li.fridge-empty:hover { background: none; }
+.fridge-hint {
+  margin-top: 0.5em;
+  font-size: 0.82rem;
+  color: var(--color-sage);
+}
+
+/* Result count above the grid */
+.recipe-count {
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-sage);
+  margin-bottom: var(--space-sm);
+}
+
+/* Recipe cards */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-md);
+}
+.recipe-card {
+  display: block;
+  color: var(--color-ink);
+  border: 1px solid var(--color-rose-soft);
+  background: var(--color-parchment);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+/* Specificity (0,2,0) beats the .recipe-card display:block above, so JS filtering
+   (card.hidden = true) actually hides the card. */
+.recipe-card[hidden] { display: none; }
+.recipe-card:hover {
+  color: var(--color-ink);
+  box-shadow: 0 8px 20px rgba(62, 51, 47, 0.12);
+  transform: translateY(-2px);
+}
+.recipe-card img,
+.recipe-card .placeholder-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.recipe-card img { filter: sepia(8%); }
+.recipe-card .placeholder-img { background: var(--color-parchment-deep); color: var(--color-gold); }
+.recipe-card h3 {
+  margin: var(--space-sm) var(--space-sm) 0.5em;
+  line-height: 1.25;
+}
+.recipe-card-ingredients {
+  list-style: none;
+  margin: 0 var(--space-sm) var(--space-sm);
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--color-sage);
+}
+.recipe-card-ingredients li {
+  display: inline;
+}
+.recipe-card-ingredients li.matched {
+  font-weight: 700;
+  color: var(--color-wine);
+}
+.recipe-card-ingredients li:not(:last-child)::after {
+  content: " · ";
+  color: var(--color-rose-soft);
+}
+
+/* Recipe detail page */
+.recipe-detail .lede { margin-bottom: var(--space-md); }
+.recipe-detail-img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  filter: sepia(8%);
+}
+.recipe-detail-body {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: var(--space-lg);
+  align-items: start;
+}
+.recipe-ingredients ul { padding-left: 1.2em; }
+.recipe-ingredients li,
+.recipe-steps li { margin-bottom: 0.5em; line-height: 1.5; }
+.recipe-steps ol { padding-left: 1.2em; }
+@media (max-width: 640px) {
+  .recipe-detail-body { grid-template-columns: 1fr; gap: var(--space-md); }
+}
 
 /* ---------- Forms (public login + admin) ---------- */
 .form-field { margin-bottom: var(--space-sm); }

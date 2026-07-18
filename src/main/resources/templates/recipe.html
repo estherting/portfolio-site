@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${recipe.title})}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('recipes')}"></div>
+
+<main class="page-frame">
+  <article class="recipe-detail">
+    <span class="label eyebrow">Recipe</span>
+    <h1 th:text="${recipe.title}">Recipe Title</h1>
+    <p class="lede" th:if="${recipe.description != null and !recipe.description.isEmpty()}"
+       th:text="${recipe.description}">Description</p>
+
+    <img class="recipe-detail-img" th:if="${recipe.imageUrl != null and !recipe.imageUrl.isEmpty()}"
+         th:src="${recipe.imageUrl}" th:alt="${recipe.title}"/>
+
+    <div th:replace="~{fragments/layout :: divider}"></div>
+
+    <div class="recipe-detail-body">
+      <section class="recipe-ingredients" th:if="${!recipe.ingredients.isEmpty()}">
+        <h2>Ingredients</h2>
+        <ul>
+          <li th:each="ing : ${recipe.ingredients}" th:text="${ing}">Ingredient</li>
+        </ul>
+      </section>
+
+      <section class="recipe-steps" th:if="${!recipe.steps.isEmpty()}">
+        <h2>Method</h2>
+        <ol>
+          <li th:each="step : ${recipe.steps}" th:text="${step}">Step</li>
+        </ol>
+      </section>
+    </div>
+  </article>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <a class="back-link" href="/recipes">&larr; Back to all recipes</a>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
