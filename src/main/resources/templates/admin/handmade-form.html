@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head(${hobby.id} != null ? 'Edit Hobby' : 'New Hobby')}"></head>
+<head th:replace="~{fragments/layout :: head(${handmade.id} != null ? 'Edit Handmade Item' : 'New Handmade Item')}"></head>
 <body>
 <div th:replace="~{fragments/admin-bar :: bar}"></div>
 
 <main class="page-frame admin-shell">
-  <h1 style="margin-top: var(--space-md);" th:text="${hobby.id} != null ? 'Edit Hobby' : 'New Hobby'">Hobby</h1>
+  <h1 style="margin-top: var(--space-md);" th:text="${handmade.id} != null ? 'Edit Handmade Item' : 'New Handmade Item'">Handmade Item</h1>
 
-  <form th:action="@{/admin/hobbies/save}" th:object="${hobby}" method="post" enctype="multipart/form-data">
+  <form th:action="@{/admin/handmade/save}" th:object="${handmade}" method="post" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}"/>
 
     <div class="form-field">
@@ -24,8 +24,8 @@
     <div class="form-field">
       <label for="imageFile">Upload Image <span style="text-transform:none;">(optional — choose a file from your computer)</span></label>
       <input type="file" id="imageFile" name="imageFile" accept="image/*"/>
-      <img th:if="${hobby.imageUrl != null and !hobby.imageUrl.isEmpty()}"
-           th:src="${hobby.imageUrl}" alt="Current image"
+      <img th:if="${handmade.imageUrl != null and !handmade.imageUrl.isEmpty()}"
+           th:src="${handmade.imageUrl}" alt="Current image"
            style="margin-top: var(--space-xs); max-width: 200px; height: auto; border-radius: 4px;"/>
     </div>
 
@@ -40,8 +40,8 @@
     </div>
 
     <div class="actions" style="justify-content: flex-start;">
-      <button type="submit" class="btn primary">Save Hobby</button>
-      <a class="btn" href="/admin/hobbies">Cancel</a>
+      <button type="submit" class="btn primary">Save Handmade Item</button>
+      <a class="btn" href="/admin/handmade">Cancel</a>
     </div>
   </form>
 </main>

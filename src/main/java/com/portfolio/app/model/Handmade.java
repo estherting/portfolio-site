@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+// Table name is kept as "hobby" so existing production data is preserved after the rename to Handmade.
 @Table(name = "hobby")
-public class Hobby {
+public class Handmade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

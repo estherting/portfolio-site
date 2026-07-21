@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage Handmade')}"></head>
+<body>
+<div th:replace="~{fragments/admin-bar :: bar}"></div>
+
+<main class="page-frame admin-shell">
+  <div class="section-heading-row" style="margin-top: var(--space-md);">
+    <h1>Handmade</h1>
+    <a class="btn primary" href="/admin/handmade/new">+ New Handmade Item</a>
+  </div>
+
+  <table class="admin-table">
+    <thead><tr><th>Title</th><th>Order</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="item : ${handmadeItems}">
+        <td th:text="${item.title}">Title</td>
+        <td th:text="${item.sortOrder}">0</td>
+        <td class="row-actions">
+          <a th:href="@{'/admin/handmade/' + ${item.id} + '/edit'}">Edit</a>
+          <form th:action="@{'/admin/handmade/' + ${item.id} + '/delete'}" method="post"
+                onsubmit="return confirm('Delete this item?');">
+            <button type="submit" class="link-btn">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p th:if="${handmadeItems.isEmpty()}">No handmade items yet.</p>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

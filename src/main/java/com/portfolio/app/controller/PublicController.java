@@ -21,7 +21,7 @@ import java.util.TreeSet;
 public class PublicController {
 
     private final RecipeRepository recipeRepository;
-    private final HobbyRepository hobbyRepository;
+    private final HandmadeRepository handmadeRepository;
     private final ResumeProfileRepository resumeProfileRepository;
     private final ExperienceRepository experienceRepository;
     private final EducationRepository educationRepository;
@@ -29,12 +29,12 @@ public class PublicController {
     private final ProjectRepository projectRepository;
     private final PollService pollService;
 
-    public PublicController(RecipeRepository recipeRepository, HobbyRepository hobbyRepository,
+    public PublicController(RecipeRepository recipeRepository, HandmadeRepository handmadeRepository,
                              ResumeProfileRepository resumeProfileRepository, ExperienceRepository experienceRepository,
                              EducationRepository educationRepository, SkillRepository skillRepository,
                              ProjectRepository projectRepository, PollService pollService) {
         this.recipeRepository = recipeRepository;
-        this.hobbyRepository = hobbyRepository;
+        this.handmadeRepository = handmadeRepository;
         this.resumeProfileRepository = resumeProfileRepository;
         this.experienceRepository = experienceRepository;
         this.educationRepository = educationRepository;
@@ -66,10 +66,16 @@ public class PublicController {
         return "resume";
     }
 
+    @GetMapping("/handmade")
+    public String handmade(Model model) {
+        model.addAttribute("handmadeItems", handmadeRepository.findAllByOrderBySortOrderAscTitleAsc());
+        return "handmade";
+    }
+
+    // Preserve old bookmarks and search-engine links from before the Hobbies → Handmade rename.
     @GetMapping("/hobbies")
-    public String hobbies(Model model) {
-        model.addAttribute("hobbies", hobbyRepository.findAllByOrderBySortOrderAscTitleAsc());
-        return "hobbies";
+    public String hobbiesRedirect() {
+        return "redirect:/handmade";
     }
 
     @GetMapping("/projects")

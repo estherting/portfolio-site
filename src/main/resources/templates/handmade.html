@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Hobbies')}"></head>
+<head th:replace="~{fragments/layout :: head('Handmade')}"></head>
 <body>
-<div th:replace="~{fragments/layout :: header('hobbies')}"></div>
+<div th:replace="~{fragments/layout :: header('handmade')}"></div>
 
 <main class="page-frame">
   <section class="hero">
     <span class="label eyebrow">Beyond Work</span>
-    <h1>Hobbies &amp; Pastimes</h1>
+    <h1>Handmade</h1>
   </section>
 
   <div th:replace="~{fragments/layout :: divider}"></div>
 
   <section class="hobby-grid">
-    <div class="hobby-card" th:each="hobby : ${hobbies}">
-      <img th:if="${hobby.imageUrl != null and !hobby.imageUrl.isEmpty()}" th:src="${hobby.imageUrl}" th:alt="${hobby.title}"/>
-      <div class="placeholder-img" th:unless="${hobby.imageUrl != null and !hobby.imageUrl.isEmpty()}">
+    <div class="hobby-card" th:each="item : ${handmadeItems}">
+      <img th:if="${item.imageUrl != null and !item.imageUrl.isEmpty()}" th:src="${item.imageUrl}" th:alt="${item.title}"/>
+      <div class="placeholder-img" th:unless="${item.imageUrl != null and !item.imageUrl.isEmpty()}">
         <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
           <path d="M20 10c1.5 2.5 1.5 5 0 7.5-1.5-2.5-1.5-5 0-7.5z"/>
           <path d="M12 20c2.5-1.5 5-1.5 7.5 0-2.5 1.5-5 1.5-7.5 0z"/>
@@ -23,11 +23,11 @@
           <path d="M20 30c-1.5-2.5-1.5-5 0-7.5 1.5 2.5 1.5 5 0 7.5z"/>
         </svg>
       </div>
-      <h3 th:text="${hobby.title}">Hobby Title</h3>
-      <p class="preserve-lines" th:text="${hobby.description}">Description</p>
+      <h3 th:text="${item.title}">Handmade Title</h3>
+      <p class="preserve-lines" th:text="${item.description}">Description</p>
     </div>
   </section>
-  <p th:if="${hobbies.isEmpty()}">No hobbies added yet.</p>
+  <p th:if="${handmadeItems.isEmpty()}">No handmade items added yet.</p>
 </main>
 
 <div th:replace="~{fragments/layout :: footer}"></div>

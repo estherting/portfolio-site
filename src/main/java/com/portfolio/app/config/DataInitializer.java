@@ -14,7 +14,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final RecipeRepository recipeRepository;
-    private final HobbyRepository hobbyRepository;
+    private final HandmadeRepository handmadeRepository;
     private final ResumeProfileRepository resumeProfileRepository;
     private final ExperienceRepository experienceRepository;
     private final EducationRepository educationRepository;
@@ -29,13 +29,13 @@ public class DataInitializer implements CommandLineRunner {
     private String adminPassword;
 
     public DataInitializer(UserRepository userRepository, RecipeRepository recipeRepository,
-                            HobbyRepository hobbyRepository, ResumeProfileRepository resumeProfileRepository,
+                            HandmadeRepository handmadeRepository, ResumeProfileRepository resumeProfileRepository,
                             ExperienceRepository experienceRepository, EducationRepository educationRepository,
                             SkillRepository skillRepository, WeeklyPollRepository weeklyPollRepository,
                             PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.recipeRepository = recipeRepository;
-        this.hobbyRepository = hobbyRepository;
+        this.handmadeRepository = handmadeRepository;
         this.resumeProfileRepository = resumeProfileRepository;
         this.experienceRepository = experienceRepository;
         this.educationRepository = educationRepository;
@@ -106,12 +106,12 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void seedSampleContent() {
-        if (hobbyRepository.count() == 0) {
-            Hobby h = new Hobby();
+        if (handmadeRepository.count() == 0) {
+            Handmade h = new Handmade();
             h.setTitle("Pressed Flower Art");
-            h.setDescription("A quiet hobby of collecting and pressing garden flowers into keepsakes.");
+            h.setDescription("Handmade keepsakes from garden flowers, collected and pressed by hand.");
             h.setSortOrder(0);
-            hobbyRepository.save(h);
+            handmadeRepository.save(h);
         }
         if (recipeRepository.count() == 0) {
             seedRecipe("Garden Herb Frittata", "garden-herb-frittata",
