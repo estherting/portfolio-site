@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${item.title})}"></head>
+<body>
+<div th:replace="~{fragments/layout :: header('handmade')}"></div>
+
+<main class="page-frame">
+  <article class="handmade-detail">
+    <span class="label eyebrow">Handmade</span>
+    <h1 th:text="${item.title}">Handmade Title</h1>
+    <p class="lede" th:if="${item.description != null and !item.description.isEmpty()}"
+       th:text="${item.description}">Description</p>
+
+    <img class="handmade-detail-img" th:if="${item.imageUrl != null and !item.imageUrl.isEmpty()}"
+         th:src="${item.imageUrl}" th:alt="${item.title}"/>
+
+    <div th:replace="~{fragments/layout :: divider}"></div>
+
+    <div class="handmade-detail-body preserve-lines"
+         th:if="${item.detail != null and !item.detail.isEmpty()}"
+         th:text="${item.detail}">Full write-up goes here.</div>
+
+    <section class="handmade-gallery" th:if="${!item.detailImages.isEmpty()}">
+      <img th:each="img : ${item.detailImages}" th:src="${img}" th:alt="${item.title}"/>
+    </section>
+  </article>
+
+  <div th:replace="~{fragments/layout :: divider}"></div>
+
+  <a class="back-link" href="/handmade">&larr; Back to all handmade</a>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -17,12 +17,23 @@
     </div>
 
     <div class="form-field">
-      <label for="description">Description</label>
+      <label for="slug">Slug <span style="text-transform:none;">(optional — the detail page URL; generated from the title if left blank)</span></label>
+      <input type="text" id="slug" th:field="*{slug}" placeholder="pressed-flower-art"/>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Short Description <span style="text-transform:none;">(shown on the card and at the top of the detail page)</span></label>
       <textarea id="description" th:field="*{description}"></textarea>
     </div>
 
     <div class="form-field">
-      <label for="imageFile">Upload Image <span style="text-transform:none;">(optional — choose a file from your computer)</span></label>
+      <label for="detail">Details <span style="text-transform:none;">(the full write-up shown on the detail page — line breaks are preserved)</span></label>
+      <textarea id="detail" th:field="*{detail}" rows="12"
+                placeholder="Tell the story of this piece: your process, the materials, what inspired it…"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="imageFile">Cover Image <span style="text-transform:none;">(optional — choose a file from your computer)</span></label>
       <input type="file" id="imageFile" name="imageFile" accept="image/*"/>
       <img th:if="${handmade.imageUrl != null and !handmade.imageUrl.isEmpty()}"
            th:src="${handmade.imageUrl}" alt="Current image"
@@ -30,8 +41,29 @@
     </div>
 
     <div class="form-field">
-      <label for="imageUrl">Image URL <span style="text-transform:none;">(optional — or paste a link to an image; an uploaded file above takes precedence)</span></label>
+      <label for="imageUrl">Cover Image URL <span style="text-transform:none;">(optional — or paste a link to an image; an uploaded file above takes precedence)</span></label>
       <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="https://..."/>
+    </div>
+
+    <div class="form-field">
+      <label for="detailImageFiles">Additional Images <span style="text-transform:none;">(optional — select one or more files to add to this item's gallery)</span></label>
+      <input type="file" id="detailImageFiles" name="detailImageFiles" accept="image/*" multiple/>
+
+      <div class="admin-gallery-manage"
+           th:if="${handmade.detailImages != null and !handmade.detailImages.isEmpty()}"
+           style="margin-top: var(--space-sm);">
+        <p style="text-transform:none; margin-bottom: var(--space-xs);">Current gallery images — tick to remove on save:</p>
+        <div style="display:flex; flex-wrap:wrap; gap: var(--space-sm);">
+          <label th:each="img : ${handmade.detailImages}"
+                 style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:0.8rem;">
+            <img th:src="${img}" alt="Gallery image"
+                 style="max-width: 140px; height: auto; border-radius: 4px;"/>
+            <span style="text-transform:none;">
+              <input type="checkbox" name="removeDetailImages" th:value="${img}"/> Remove
+            </span>
+          </label>
+        </div>
+      </div>
     </div>
 
     <div class="form-field">

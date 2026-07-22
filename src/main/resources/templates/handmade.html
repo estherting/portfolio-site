@@ -6,7 +6,7 @@
 
 <main class="page-frame">
   <section class="hero">
-    <span class="label eyebrow">Beyond Work</span>
+    <span class="label eyebrow">My Creative Corner</span>
     <h1>Handmade</h1>
   </section>
 
@@ -14,16 +14,18 @@
 
   <section class="hobby-grid">
     <div class="hobby-card" th:each="item : ${handmadeItems}">
-      <img th:if="${item.imageUrl != null and !item.imageUrl.isEmpty()}" th:src="${item.imageUrl}" th:alt="${item.title}"/>
-      <div class="placeholder-img" th:unless="${item.imageUrl != null and !item.imageUrl.isEmpty()}">
-        <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M20 10c1.5 2.5 1.5 5 0 7.5-1.5-2.5-1.5-5 0-7.5z"/>
-          <path d="M12 20c2.5-1.5 5-1.5 7.5 0-2.5 1.5-5 1.5-7.5 0z"/>
-          <path d="M28 20c-2.5-1.5-5-1.5-7.5 0 2.5 1.5 5 1.5 7.5 0z"/>
-          <path d="M20 30c-1.5-2.5-1.5-5 0-7.5 1.5 2.5 1.5 5 0 7.5z"/>
-        </svg>
-      </div>
-      <h3 th:text="${item.title}">Handmade Title</h3>
+      <a class="hobby-card-media" th:href="@{'/handmade/' + ${item.slug}}" th:title="${item.title}">
+        <img th:if="${item.imageUrl != null and !item.imageUrl.isEmpty()}" th:src="${item.imageUrl}" th:alt="${item.title}"/>
+        <div class="placeholder-img" th:unless="${item.imageUrl != null and !item.imageUrl.isEmpty()}">
+          <svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M20 10c1.5 2.5 1.5 5 0 7.5-1.5-2.5-1.5-5 0-7.5z"/>
+            <path d="M12 20c2.5-1.5 5-1.5 7.5 0-2.5 1.5-5 1.5-7.5 0z"/>
+            <path d="M28 20c-2.5-1.5-5-1.5-7.5 0 2.5 1.5 5 1.5 7.5 0z"/>
+            <path d="M20 30c-1.5-2.5-1.5-5 0-7.5 1.5 2.5 1.5 5 0 7.5z"/>
+          </svg>
+        </div>
+      </a>
+      <h3><a class="hobby-card-title" th:href="@{'/handmade/' + ${item.slug}}" th:text="${item.title}">Handmade Title</a></h3>
       <p class="preserve-lines" th:text="${item.description}">Description</p>
     </div>
   </section>

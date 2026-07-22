@@ -50,6 +50,41 @@ public class DataInitializer implements CommandLineRunner {
         seedResumeProfile();
         seedSampleContent();
         seedSamplePoll();
+        backfillHandmadeSlugs();
+    }
+
+    /**
+     * Handmade items created before the detail-page feature have no slug. Give each one a
+     * slug derived from its title so its detail page (/handmade/{slug}) is reachable.
+     */
+    private void backfillHandmadeSlugs() {
+        for (Handmade item : handmadeRepository.findAll()) {
+            if (item.getSlug() == null || item.getSlug().isBlank()) {
+                String slug = slugify(item.getTitle());
+                if (slug.isBlank()) {
+                    slug = "item";
+                }
+                // Avoid colliding with a slug another item already holds.
+                String candidate = slug;
+                int suffix = 2;
+                while (handmadeRepository.findBySlug(candidate)
+                        .filter(other -> !other.getId().equals(item.getId())).isPresent()) {
+                    candidate = slug + "-" + suffix++;
+                }
+                item.setSlug(candidate);
+                handmadeRepository.save(item);
+            }
+        }
+    }
+
+    private String slugify(String input) {
+        if (input == null) {
+            return "";
+        }
+        String normalized = java.text.Normalizer.normalize(input, java.text.Normalizer.Form.NFD);
+        String slug = normalized.replaceAll("[^\\w\\s-]", "");
+        slug = slug.trim().toLowerCase().replaceAll("[\\s_-]+", "-");
+        return slug.replaceAll("^-|-$", "");
     }
 
     private void seedAdminUser() {
@@ -109,7 +144,12 @@ public class DataInitializer implements CommandLineRunner {
         if (handmadeRepository.count() == 0) {
             Handmade h = new Handmade();
             h.setTitle("Pressed Flower Art");
+            h.setSlug("pressed-flower-art");
             h.setDescription("Handmade keepsakes from garden flowers, collected and pressed by hand.");
+            h.setDetail("Every spring I collect flowers from the garden and press them between the pages "
+                    + "of old books. After a few weeks they're paper-thin and keep their colour for years.\n\n"
+                    + "Write about your process, the materials you used, and the story behind the piece here. "
+                    + "Add as many photos as you like from the editor.");
             h.setSortOrder(0);
             handmadeRepository.save(h);
         }

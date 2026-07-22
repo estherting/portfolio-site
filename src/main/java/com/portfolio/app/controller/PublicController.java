@@ -1,5 +1,6 @@
 package com.portfolio.app.controller;
 
+import com.portfolio.app.model.Handmade;
 import com.portfolio.app.model.Recipe;
 import com.portfolio.app.model.WeeklyPoll;
 import com.portfolio.app.repository.*;
@@ -70,6 +71,14 @@ public class PublicController {
     public String handmade(Model model) {
         model.addAttribute("handmadeItems", handmadeRepository.findAllByOrderBySortOrderAscTitleAsc());
         return "handmade";
+    }
+
+    @GetMapping("/handmade/{slug}")
+    public String handmadeDetail(@PathVariable String slug, Model model) {
+        Handmade item = handmadeRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Handmade item not found"));
+        model.addAttribute("item", item);
+        return "handmade-detail";
     }
 
     // Preserve old bookmarks and search-engine links from before the Hobbies → Handmade rename.

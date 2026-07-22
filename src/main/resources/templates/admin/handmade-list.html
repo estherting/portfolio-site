@@ -17,6 +17,7 @@
         <td th:text="${item.title}">Title</td>
         <td th:text="${item.sortOrder}">0</td>
         <td class="row-actions">
+          <a th:href="@{'/handmade/' + ${item.slug}}" target="_blank" th:if="${item.slug != null}">View</a>
           <a th:href="@{'/admin/handmade/' + ${item.id} + '/edit'}">Edit</a>
           <form th:action="@{'/admin/handmade/' + ${item.id} + '/delete'}" method="post"
                 onsubmit="return confirm('Delete this item?');">
